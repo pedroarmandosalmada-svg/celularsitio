@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matemáticas Avanzadas — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05050f;--surface:#0d0d20;--card:#111128;--border:rgba(120,80,255,0.15);--violet:#7850ff;--vl:#a584ff;--cyan:#00d4ff;--pink:#ff4fa3;--yellow:#ffd166;--text:#eeeeff;--muted:#6e6e9a;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(120,80,255,0.18) 0%,transparent 60%);}
+header{position:sticky;top:0;z-index:200;background:rgba(5,5,15,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;gap:0.5rem;}
+.logo-text{font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:700;color:var(--vl);}
+.back-link{font-size:0.75rem;color:var(--muted);text-decoration:none;white-space:nowrap;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.3rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(5,5,15,0.98);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.nav-overlay a{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,0.7);text-decoration:none;}
+.nav-overlay a:active{color:var(--vl);}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;}
+/* HERO */
+.hero{position:relative;z-index:1;padding:2.5rem 1.1rem 1.8rem;}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.8rem;}
+.hero-tag::before{content:'// ';}
+.hero h1{font-size:clamp(2rem,8vw,4rem);font-weight:800;line-height:1;letter-spacing:-0.03em;margin-bottom:0.8rem;}
+.hero h1 .grad{background:linear-gradient(90deg,var(--vl),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{color:var(--muted);font-size:0.88rem;line-height:1.7;}
+/* FORMULA STRIP — mobile horizontal scroll */
+.formula-strip{display:flex;gap:0.7rem;overflow-x:auto;padding:1.2rem 1.1rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.formula-strip::-webkit-scrollbar{display:none;}
+.f-pill{background:var(--card);border-radius:10px;padding:0.8rem 1rem;flex-shrink:0;border-left:2px solid var(--violet);min-width:180px;}
+.f-pill:nth-child(2){border-color:var(--cyan);}
+.f-pill:nth-child(3){border-color:var(--pink);}
+.f-pill:nth-child(4){border-color:var(--yellow);}
+.f-label{font-size:0.6rem;color:var(--muted);margin-bottom:0.3rem;}
+.f-formula{font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:var(--vl);}
+/* TABS */
+.tabs-section{position:relative;z-index:1;padding:1.8rem 1.1rem;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.8rem;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{padding:0.8rem 1rem;font-size:0.82rem;font-weight:700;background:transparent;border:none;color:var(--muted);cursor:pointer;font-family:'Manrope',sans-serif;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color 0.2s,border-color 0.2s;-webkit-tap-highlight-color:transparent;}
+.tab-btn.active{color:var(--text);border-color:var(--violet);}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn 0.3s ease;}
+.content-grid{display:grid;grid-template-columns:1fr;gap:1rem;}
+.c-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;-webkit-tap-highlight-color:transparent;}
+.c-card:active{border-color:var(--violet);}
+.c-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;padding:0.18rem 0.55rem;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.8rem;}
+.badge-v{background:rgba(120,80,255,0.15);color:var(--vl);}
+.badge-c{background:rgba(0,212,255,0.12);color:var(--cyan);}
+.badge-p{background:rgba(255,79,163,0.12);color:var(--pink);}
+.badge-y{background:rgba(255,209,102,0.12);color:var(--yellow);}
+.c-card h3{font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}
+.c-card p{font-size:0.78rem;color:var(--muted);line-height:1.6;}
+.c-formula{margin-top:0.8rem;padding:0.6rem 0.9rem;background:rgba(255,255,255,0.03);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--vl);}
+/* REC */
+.rec-section{position:relative;z-index:1;padding:1.8rem 1.1rem;background:var(--surface);}
+.rec-section h2{font-size:1.2rem;font-weight:800;margin-bottom:0.4rem;}
+.rec-section > p{color:var(--muted);font-size:0.82rem;margin-bottom:1.2rem;}
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.rec-item{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:1rem;}
+.rec-item:active{border-color:var(--violet);}
+.rec-emoji{font-size:1.3rem;margin-bottom:0.4rem;}
+.rec-item h4{font-size:0.85rem;font-weight:700;margin-bottom:0.2rem;}
+.rec-item p{font-size:0.72rem;color:var(--muted);line-height:1.4;}
+.rec-item a{display:inline-block;margin-top:0.5rem;color:var(--vl);font-size:0.72rem;font-weight:700;text-decoration:none;}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.3rem 1.1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.72rem;color:var(--muted);}
+@media(min-width:580px){
+  .hero{padding:3.5rem 2rem 2.5rem;}
+  .formula-strip{padding:1.5rem 2rem;}
+  .tabs-section,.rec-section{padding:2.5rem 2rem;}
+  .content-grid{grid-template-columns:repeat(2,1fr);}
+  .rec-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(min-width:900px){
+  .hero{padding:5rem 3rem 3rem;}
+  .formula-strip{padding:1.5rem 3rem;}
+  .tabs-section,.rec-section{padding:3rem 3rem;}
+  .content-grid{grid-template-columns:repeat(3,1fr);}
+  footer{flex-direction:row;justify-content:space-between;padding:1.8rem 3rem;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo-text">MatAvanzada</div>
+    <a href="index.html" class="back-link">← Portal</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="index.html">🏠 Portal</a><a href="matematicas.html">➗ Matemáticas</a><a href="ciencias.html">🔬 Ciencias</a><a href="historia-geografia.html">🏛️ Historia</a><a href="espanol-lectura.html">📝 Español</a><a href="english.html">🇺🇸 English</a><a href="computacion.html">💻 Computación</a><a href="civica-artes.html">⚖️ Cívica</a>
+</div>
+<section class="hero">
+  <div class="hero-tag">Matemáticas Avanzadas</div>
+  <h1>Domina las<br><span class="grad">Matemáticas</span><br>avanzadas.</h1>
+  <p>Álgebra de Baldor, trigonometría, cálculo diferencial e integral. Desliza para ver las fórmulas esenciales.</p>
+</section>
+<div class="formula-strip">
+  <div class="f-pill"><div class="f-label">Teorema de Pitágoras</div><div class="f-formula">a² + b² = c²</div></div>
+  <div class="f-pill"><div class="f-label">Derivada de xⁿ</div><div class="f-formula">d/dx[xⁿ] = n·xⁿ⁻¹</div></div>
+  <div class="f-pill"><div class="f-label">Identidad pitagórica</div><div class="f-formula">sin²θ + cos²θ = 1</div></div>
+  <div class="f-pill"><div class="f-label">Integral potencial</div><div class="f-formula">∫xⁿdx = xⁿ⁺¹/(n+1)+C</div></div>
+  <div class="f-pill"><div class="f-label">Fórmula general</div><div class="f-formula">x=(-b±√(b²-4ac))/2a</div></div>
+</div>
+<section class="tabs-section">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('baldor',this)">📘 Baldor</button>
+    <button class="tab-btn" onclick="showTab('trig',this)">📐 Trigonometría</button>
+    <button class="tab-btn" onclick="showTab('deriv',this)">📈 Derivadas</button>
+    <button class="tab-btn" onclick="showTab('integ',this)">∫ Integrales</button>
+  </div>
+  <div id="baldor" class="tab-content active">
+    <div class="content-grid">
+      <div class="c-card"><span class="c-badge badge-v">Fundamento</span><h3>Factorización</h3><p>Técnicas para descomponer expresiones algebraicas: factor común, diferencia de cuadrados, trinomio.</p><div class="c-formula">x² - 9 = (x+3)(x-3)</div></div>
+      <div class="c-card"><span class="c-badge badge-v">Ecuaciones</span><h3>Ecuaciones 1° grado</h3><p>Resolución de ecuaciones lineales. Métodos de sustitución y eliminación.</p><div class="c-formula">2x + 5 = 13 → x = 4</div></div>
+      <div class="c-card"><span class="c-badge badge-v">Ecuaciones</span><h3>Ecuaciones 2° grado</h3><p>Fórmula general, completar el cuadrado y factorización.</p><div class="c-formula">x = (-b ± √(b²-4ac)) / 2a</div></div>
+      <div class="c-card"><span class="c-badge badge-v">Álgebra</span><h3>Productos notables</h3><p>Casos especiales del producto de binomios y polinomios.</p><div class="c-formula">(a+b)² = a² + 2ab + b²</div></div>
+      <div class="c-card"><span class="c-badge badge-v">Sistemas</span><h3>Sistemas de ecuaciones</h3><p>Resolución de sistemas 2×2 por sustitución, igualación y reducción.</p><div class="c-formula">{ x+y=5 / x-y=1 }</div></div>
+      <div class="c-card"><span class="c-badge badge-v">Series</span><h3>Sucesiones</h3><p>Progresiones aritméticas y geométricas, término general y suma.</p><div class="c-formula">aₙ = a₁ + (n-1)d</div></div>
+    </div>
+  </div>
+  <div id="trig" class="tab-content">
+    <div class="content-grid">
+      <div class="c-card"><span class="c-badge badge-c">Geometría</span><h3>Triángulo rectángulo</h3><p>Hipotenusa, cateto opuesto y cateto adyacente. Teorema de Pitágoras.</p><div class="c-formula">Hipotenusa² = co² + ca²</div></div>
+      <div class="c-card"><span class="c-badge badge-c">Razones</span><h3>Seno, Coseno, Tangente</h3><p>Las tres razones trigonométricas fundamentales del triángulo rectángulo.</p><div class="c-formula">sin=op/hip | cos=ad/hip | tan=op/ad</div></div>
+      <div class="c-card"><span class="c-badge badge-c">Identidades</span><h3>Identidades trig.</h3><p>Identidad pitagórica, ángulo doble y suma de ángulos.</p><div class="c-formula">sin²θ + cos²θ = 1</div></div>
+      <div class="c-card"><span class="c-badge badge-c">Círculo</span><h3>Círculo unitario</h3><p>Ángulos en el plano cartesiano y valores especiales: 0°, 30°, 45°, 60°, 90°.</p><div class="c-formula">sin(30°)=½ | cos(60°)=½</div></div>
+      <div class="c-card"><span class="c-badge badge-c">Leyes</span><h3>Ley de senos</h3><p>Resolución de triángulos oblicuángulos con la ley de senos.</p><div class="c-formula">a/sinA = b/sinB = c/sinC</div></div>
+      <div class="c-card"><span class="c-badge badge-c">Aplicación</span><h3>Ángulos de elevación</h3><p>Problemas de ángulos de elevación y depresión en arquitectura y topografía.</p><div class="c-formula">tan(α) = altura / distancia</div></div>
+    </div>
+  </div>
+  <div id="deriv" class="tab-content">
+    <div class="content-grid">
+      <div class="c-card"><span class="c-badge badge-p">Concepto</span><h3>¿Qué es una derivada?</h3><p>La derivada mide la razón de cambio instantánea. Representa la pendiente de la tangente a la curva.</p><div class="c-formula">f'(x) = lím[Δx→0] Δy/Δx</div></div>
+      <div class="c-card"><span class="c-badge badge-p">Regla</span><h3>Regla de la potencia</h3><p>Bajar el exponente como coeficiente y reducir el exponente en uno.</p><div class="c-formula">d/dx[xⁿ] = n·xⁿ⁻¹</div></div>
+      <div class="c-card"><span class="c-badge badge-p">Regla</span><h3>Producto y cociente</h3><p>Derivada del producto y del cociente de dos funciones.</p><div class="c-formula">(fg)' = f'g + fg'</div></div>
+      <div class="c-card"><span class="c-badge badge-p">Regla</span><h3>Regla de la cadena</h3><p>Para funciones compuestas: derivada exterior por derivada interior.</p><div class="c-formula">d/dx[f(g(x))] = f'(g(x))·g'(x)</div></div>
+      <div class="c-card"><span class="c-badge badge-p">Aplicación</span><h3>Máximos y mínimos</h3><p>Usar la primera derivada para encontrar valores extremos de una función.</p><div class="c-formula">f'(x)=0 → punto crítico</div></div>
+      <div class="c-card"><span class="c-badge badge-p">Especiales</span><h3>Derivadas especiales</h3><p>Derivadas de funciones trigonométricas, exponenciales y logarítmicas.</p><div class="c-formula">d/dx[sinx] = cosx</div></div>
+    </div>
+  </div>
+  <div id="integ" class="tab-content">
+    <div class="content-grid">
+      <div class="c-card"><span class="c-badge badge-y">Concepto</span><h3>¿Qué es una integral?</h3><p>La integral es la operación inversa de la derivada. Calcula el área bajo la curva.</p><div class="c-formula">∫f(x)dx = F(x) + C</div></div>
+      <div class="c-card"><span class="c-badge badge-y">Indefinida</span><h3>Integral indefinida</h3><p>Antiderivada de una función. Incluye la constante de integración C.</p><div class="c-formula">∫xⁿdx = xⁿ⁺¹/(n+1) + C</div></div>
+      <div class="c-card"><span class="c-badge badge-y">Definida</span><h3>Integral definida</h3><p>Calcula el área exacta entre una curva y el eje x en el intervalo [a,b].</p><div class="c-formula">∫ₐᵇf(x)dx = F(b) - F(a)</div></div>
+      <div class="c-card"><span class="c-badge badge-y">Método</span><h3>Sustitución</h3><p>Técnica para simplificar integrales complejas mediante cambio de variable.</p><div class="c-formula">u = g(x), du = g'(x)dx</div></div>
+      <div class="c-card"><span class="c-badge badge-y">Método</span><h3>Integración por partes</h3><p>Para integrar el producto de dos funciones usando la fórmula LIATE.</p><div class="c-formula">∫u dv = uv - ∫v du</div></div>
+      <div class="c-card"><span class="c-badge badge-y">Aplicación</span><h3>Área entre curvas</h3><p>Cálculo del área de regiones delimitadas por dos funciones.</p><div class="c-formula">A = ∫ₐᵇ[f(x)-g(x)]dx</div></div>
+    </div>
+  </div>
+</section>
+<section class="rec-section">
+  <h2>Recursos interactivos</h2>
+  <p>Practica y visualiza con herramientas gratuitas</p>
+  <div class="rec-grid">
+    <div class="rec-item"><div class="rec-emoji">📊</div><h4>Desmos</h4><p>Graficadora online en tiempo real</p><a href="https://www.desmos.com/calculator" target="_blank">Abrir →</a></div>
+    <div class="rec-item"><div class="rec-emoji">🧮</div><h4>Wolfram Alpha</h4><p>Resuelve paso a paso</p><a href="https://www.wolframalpha.com" target="_blank">Resolver →</a></div>
+    <div class="rec-item"><div class="rec-emoji">🎓</div><h4>Khan Academy</h4><p>Cálculo en español</p><a href="https://es.khanacademy.org/math/calculus-1" target="_blank">Ver →</a></div>
+    <div class="rec-item"><div class="rec-emoji">📐</div><h4>GeoGebra</h4><p>Trigonometría interactiva</p><a href="https://www.geogebra.org/t/trigonometry" target="_blank">Explorar →</a></div>
+  </div>
+</section>
+<footer><span>MatemáticasAvanzadas · Telesecundaria</span><span>Ciclo 2025–2026</span></footer>
+<script>
+function showTab(id,btn){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function open_(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function close_(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?close_():open_());
+nc.addEventListener('click',close_);ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close_));
+</script>
+</body>
+</html>

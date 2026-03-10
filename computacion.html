@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computación — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1117;--surface:#161b27;--card:#1d2333;--blue:#2563eb;--bl:#60a5fa;--green:#10b981;--orange:#f59e0b;--text:#f1f5f9;--muted:#64748b;--border:rgba(255,255,255,0.07);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(37,99,235,0.12) 0%,transparent 60%);}
+header{position:sticky;top:0;z-index:200;background:rgba(14,17,23,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;gap:0.5rem;}
+.logo-text{font-family:'IBM Plex Mono',monospace;font-size:0.88rem;font-weight:700;}
+.logo-text .b{color:var(--bl);}.logo-text .g{color:var(--green);}
+.back-link{font-size:0.75rem;color:var(--muted);text-decoration:none;white-space:nowrap;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.3rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(8,12,20,0.98);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.nav-overlay a{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,0.75);text-decoration:none;}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;}
+.hero{position:relative;z-index:1;padding:2.5rem 1.1rem 2rem;}
+.hero-tag{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--bl);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;}
+.hero h1{font-size:clamp(2rem,8vw,4rem);font-weight:800;line-height:1;letter-spacing:-0.03em;margin-bottom:0.8rem;}
+.hero h1 .hl{color:var(--bl);}
+.hero p{color:var(--muted);font-size:0.9rem;line-height:1.75;}
+.hero-btns{display:flex;flex-direction:column;gap:0.7rem;margin-top:1.5rem;}
+.btn-blue{background:var(--blue);color:#fff;padding:0.9rem 1.5rem;font-weight:700;font-size:0.88rem;border:none;cursor:pointer;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;text-align:center;-webkit-tap-highlight-color:transparent;}
+.btn-ghost{background:transparent;color:var(--text);padding:0.9rem 1.5rem;font-weight:600;font-size:0.88rem;border:1px solid var(--border);cursor:pointer;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;text-align:center;}
+/* APPS */
+.apps-strip{display:flex;gap:0.6rem;overflow-x:auto;padding:1.2rem 1.1rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.apps-strip::-webkit-scrollbar{display:none;}
+.app-pill{background:var(--card);border-radius:12px;padding:0.9rem 1rem;flex-shrink:0;text-align:center;border:1px solid var(--border);min-width:70px;-webkit-tap-highlight-color:transparent;}
+.app-pill:active{border-color:rgba(255,255,255,0.2);}
+.app-pill .ap-e{font-size:1.5rem;margin-bottom:0.3rem;}
+.app-pill .ap-n{font-size:0.68rem;font-weight:700;}
+/* TABS */
+.section{position:relative;z-index:1;padding:1.8rem 1.1rem;}
+.s-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--bl);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.5rem;}
+.section h2{font-size:1.25rem;font-weight:800;margin-bottom:1.2rem;letter-spacing:-0.02em;}
+.prog-tabs{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.prog-tab{padding:0.5rem 0.9rem;border-radius:999px;font-size:0.78rem;font-weight:700;border:1px solid var(--border);background:var(--card);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;color:var(--muted);transition:all 0.18s;-webkit-tap-highlight-color:transparent;}
+.prog-tab.active{color:var(--text);border-color:var(--bl);}
+.prog-content{display:none;}
+.prog-content.active{display:block;animation:fadeIn 0.25s ease;}
+.lessons-grid{display:grid;grid-template-columns:1fr;gap:0.9rem;}
+.lesson-card{background:var(--card);border-radius:12px;padding:1.2rem;border:1px solid var(--border);-webkit-tap-highlight-color:transparent;}
+.lesson-card:active{border-color:var(--bl);}
+.lesson-num{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--muted);margin-bottom:0.4rem;}
+.lesson-card h3{font-size:0.9rem;font-weight:700;margin-bottom:0.35rem;}
+.lesson-card p{font-size:0.75rem;color:var(--muted);line-height:1.55;}
+.lesson-tag{display:inline-block;margin-top:0.6rem;font-size:0.58rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;}
+.tag-word{background:rgba(37,99,235,0.15);color:var(--bl);}
+.tag-excel{background:rgba(16,185,129,0.12);color:var(--green);}
+.tag-ppt{background:rgba(245,158,11,0.12);color:var(--orange);}
+.tag-net{background:rgba(139,92,246,0.12);color:#a78bfa;}
+/* ATAJOS */
+.atajos-bg{background:var(--surface);}
+.atajos-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-top:1rem;}
+.atajo{background:var(--card);border-radius:9px;padding:0.75rem 0.9rem;display:flex;align-items:center;gap:0.7rem;border:1px solid var(--border);}
+.atajo-key{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;background:var(--surface);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:0.2rem 0.45rem;white-space:nowrap;flex-shrink:0;}
+.atajo-desc{font-size:0.72rem;color:var(--muted);}
+/* REC */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:1rem;}
+.rec-item{background:var(--card);border-radius:11px;padding:1.1rem;border:1px solid var(--border);}
+.ri-icon{font-size:1.3rem;margin-bottom:0.5rem;}
+.rec-item h4{font-size:0.85rem;font-weight:700;margin-bottom:0.2rem;}
+.rec-item p{font-size:0.72rem;color:var(--muted);line-height:1.4;}
+.rec-item a{display:inline-block;margin-top:0.5rem;color:var(--bl);font-size:0.72rem;font-weight:700;text-decoration:none;}
+footer{border-top:1px solid var(--border);padding:1.3rem 1.1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.72rem;color:var(--muted);}
+@media(min-width:580px){
+  .hero{padding:3.5rem 2rem 2.5rem;}
+  .hero-btns{flex-direction:row;}
+  .apps-strip{padding:1.5rem 2rem;}
+  .section{padding:2.5rem 2rem;}
+  .lessons-grid{grid-template-columns:repeat(2,1fr);}
+  .atajos-grid{grid-template-columns:repeat(3,1fr);}
+  .rec-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(min-width:900px){
+  .hero{padding:5rem 3rem 3rem;}
+  .section{padding:3rem 3rem;}
+  .lessons-grid{grid-template-columns:repeat(3,1fr);}
+  footer{flex-direction:row;justify-content:space-between;padding:1.8rem 3rem;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo-text">Comp<span class="b">u</span><span class="g">TS</span></div>
+    <a href="index.html" class="back-link">← Portal</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="index.html">🏠 Portal</a><a href="matematicas.html">➗ Matemáticas</a><a href="matematicas-avanzadas.html">∫ Avanzadas</a><a href="ciencias.html">🔬 Ciencias</a><a href="historia-geografia.html">🏛️ Historia</a><a href="espanol-lectura.html">📝 Español</a><a href="english.html">🇺🇸 English</a><a href="civica-artes.html">⚖️ Cívica</a>
+</div>
+<div class="hero">
+  <div class="hero-tag">Telesecundaria · Computación</div>
+  <h1>Tecnología<br>al alcance<br>de <span class="hl">todos.</span></h1>
+  <p>Word, Excel, PowerPoint, Internet y herramientas digitales. Habilidades para la vida escolar y laboral.</p>
+  <div class="hero-btns">
+    <button class="btn-blue">Comenzar curso</button>
+    <button class="btn-ghost">Ver atajos</button>
+  </div>
+</div>
+<div class="apps-strip">
+  <div class="app-pill"><div class="ap-e">📝</div><div class="ap-n">Word</div></div>
+  <div class="app-pill"><div class="ap-e">📊</div><div class="ap-n">Excel</div></div>
+  <div class="app-pill"><div class="ap-e">📽️</div><div class="ap-n">PowerPoint</div></div>
+  <div class="app-pill"><div class="ap-e">🌐</div><div class="ap-n">Internet</div></div>
+  <div class="app-pill"><div class="ap-e">📧</div><div class="ap-n">Correo</div></div>
+  <div class="app-pill"><div class="ap-e">☁️</div><div class="ap-n">Drive</div></div>
+</div>
+<section class="section">
+  <div class="s-eyebrow">Contenido del curso</div>
+  <h2>Aprende por programa</h2>
+  <div class="prog-tabs">
+    <button class="prog-tab active" onclick="showProg('word',this)">📝 Word</button>
+    <button class="prog-tab" onclick="showProg('excel',this)">📊 Excel</button>
+    <button class="prog-tab" onclick="showProg('ppt',this)">📽️ PowerPoint</button>
+    <button class="prog-tab" onclick="showProg('net',this)">🌐 Internet</button>
+  </div>
+  <div id="word" class="prog-content active">
+    <div class="lessons-grid">
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 01</div><h3>Interfaz de Word</h3><p>Cinta de opciones, menús y área de trabajo.</p><span class="lesson-tag tag-word">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 02</div><h3>Formato de texto</h3><p>Fuentes, tamaños, negrita, cursiva y alineación.</p><span class="lesson-tag tag-word">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 03</div><h3>Tablas e imágenes</h3><p>Insertar y dar formato a tablas e imágenes.</p><span class="lesson-tag tag-word">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 04</div><h3>Encabezados y pie de página</h3><p>Numeración de páginas y tabla de contenido.</p><span class="lesson-tag tag-word">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 05</div><h3>Estilos y plantillas</h3><p>Aplicar estilos y usar plantillas para cartas y reportes.</p><span class="lesson-tag tag-word">Avanzado</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 06</div><h3>Guardar e imprimir</h3><p>Guardar en .docx y .pdf, configurar e imprimir.</p><span class="lesson-tag tag-word">Básico</span></div>
+    </div>
+  </div>
+  <div id="excel" class="prog-content">
+    <div class="lessons-grid">
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 01</div><h3>Celdas y rangos</h3><p>Ingresar datos, seleccionar rangos y navegar.</p><span class="lesson-tag tag-excel">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 02</div><h3>Fórmulas básicas</h3><p>SUMA, PROMEDIO, MAX, MIN y CONTAR.</p><span class="lesson-tag tag-excel">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 03</div><h3>Gráficas</h3><p>Barras, líneas, pastel y personalización.</p><span class="lesson-tag tag-excel">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 04</div><h3>Formato condicional</h3><p>Resaltar celdas con colores automáticamente.</p><span class="lesson-tag tag-excel">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 05</div><h3>Filtros y ordenamiento</h3><p>Ordenar y filtrar filas con criterios personalizados.</p><span class="lesson-tag tag-excel">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 06</div><h3>Tablas dinámicas</h3><p>Resumir grandes volúmenes de datos automáticamente.</p><span class="lesson-tag tag-excel">Avanzado</span></div>
+    </div>
+  </div>
+  <div id="ppt" class="prog-content">
+    <div class="lessons-grid">
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 01</div><h3>Crear presentación</h3><p>Temas, diseños de diapositiva y modos de vista.</p><span class="lesson-tag tag-ppt">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 02</div><h3>Texto e imágenes</h3><p>Cuadros de texto, fuentes, imágenes y formas.</p><span class="lesson-tag tag-ppt">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 03</div><h3>Transiciones</h3><p>Agregar transiciones y animaciones a los elementos.</p><span class="lesson-tag tag-ppt">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 04</div><h3>Gráficas en slides</h3><p>Insertar gráficas, tablas y diagramas.</p><span class="lesson-tag tag-ppt">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 05</div><h3>Modo presentador</h3><p>Notas del orador, temporizador y proyección.</p><span class="lesson-tag tag-ppt">Avanzado</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 06</div><h3>Exportar y compartir</h3><p>Guardar como .pdf, video y compartir en Drive.</p><span class="lesson-tag tag-ppt">Básico</span></div>
+    </div>
+  </div>
+  <div id="net" class="prog-content">
+    <div class="lessons-grid">
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 01</div><h3>Navegadores web</h3><p>Chrome, Firefox y Edge. Pestañas y marcadores.</p><span class="lesson-tag tag-net">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 02</div><h3>Búsquedas efectivas</h3><p>Buscar en Google y evaluar fuentes confiables.</p><span class="lesson-tag tag-net">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 03</div><h3>Correo electrónico</h3><p>Gmail: correos formales e informales con adjuntos.</p><span class="lesson-tag tag-net">Básico</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 04</div><h3>Google Drive</h3><p>Guardar en la nube y documentos colaborativos.</p><span class="lesson-tag tag-net">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 05</div><h3>Seguridad en internet</h3><p>Contraseñas seguras, privacidad y phishing.</p><span class="lesson-tag tag-net">Intermedio</span></div>
+      <div class="lesson-card"><div class="lesson-num">LECCIÓN 06</div><h3>Herramientas educativas</h3><p>Google Classroom, Canva y plataformas de aprendizaje.</p><span class="lesson-tag tag-net">Intermedio</span></div>
+    </div>
+  </div>
+</section>
+<section class="section atajos-bg">
+  <div class="s-eyebrow">Referencia rápida</div>
+  <h2>Atajos de teclado</h2>
+  <div class="atajos-grid">
+    <div class="atajo"><span class="atajo-key">Ctrl+C</span><span class="atajo-desc">Copiar</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+V</span><span class="atajo-desc">Pegar</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+Z</span><span class="atajo-desc">Deshacer</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+S</span><span class="atajo-desc">Guardar</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+B</span><span class="atajo-desc">Negrita</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+P</span><span class="atajo-desc">Imprimir</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+A</span><span class="atajo-desc">Seleccionar todo</span></div>
+    <div class="atajo"><span class="atajo-key">Ctrl+F</span><span class="atajo-desc">Buscar</span></div>
+    <div class="atajo"><span class="atajo-key">Alt+F4</span><span class="atajo-desc">Cerrar ventana</span></div>
+    <div class="atajo"><span class="atajo-key">Win+D</span><span class="atajo-desc">Escritorio</span></div>
+  </div>
+</section>
+<section class="section">
+  <div class="s-eyebrow">Recursos</div>
+  <h2>Aprende más en línea</h2>
+  <div class="rec-grid">
+    <div class="rec-item"><div class="ri-icon">🎓</div><h4>GCFGlobal</h4><p>Tutoriales gratis de Office</p><a href="https://edu.gcfglobal.org/es/" target="_blank">Ir →</a></div>
+    <div class="rec-item"><div class="ri-icon">📹</div><h4>Microsoft Training</h4><p>Videos oficiales de Microsoft</p><a href="https://support.microsoft.com/es-es/training" target="_blank">Ver →</a></div>
+    <div class="rec-item"><div class="ri-icon">🎨</div><h4>Canva Educación</h4><p>Diseño gratis para estudiantes</p><a href="https://www.canva.com/es_mx/education/" target="_blank">Ir →</a></div>
+    <div class="rec-item"><div class="ri-icon">☁️</div><h4>Google Workspace</h4><p>Docs, Sheets y Slides gratis</p><a href="https://workspace.google.com/intl/es/edu/" target="_blank">Ir →</a></div>
+  </div>
+</section>
+<footer><span>ComputaciónTS · Telesecundaria</span><span>Ciclo 2025–2026</span></footer>
+<script>
+function showProg(id,btn){document.querySelectorAll('.prog-content').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.prog-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function open_(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function close_(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?close_():open_());
+nc.addEventListener('click',close_);ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close_));
+</script>
+</body>
+</html>

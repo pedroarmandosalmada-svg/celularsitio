@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historia y Geografía — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1c1409;--card:#241c0e;--gold:#c9933a;--gl:#e8b865;--cream:#f5ead8;--text:#f0e6d0;--muted:#9e8c72;--border:rgba(201,147,58,0.2);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);}
+header{background:rgba(28,20,9,0.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:200;border-bottom:1px solid var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;gap:0.5rem;}
+.logo-text{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gl);font-weight:700;}
+.back-link{font-size:0.75rem;color:var(--muted);text-decoration:none;white-space:nowrap;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.3rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(15,10,3,0.98);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.nav-overlay a{font-size:1.2rem;font-weight:600;color:rgba(255,255,255,0.7);text-decoration:none;}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;}
+.hero{padding:2.5rem 1.1rem 2rem;border-bottom:1px solid var(--border);}
+.epoch-tag{font-size:0.65rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.18em;display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;}
+.epoch-tag::before{content:'';display:block;width:22px;height:1px;background:var(--gold);}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,8vw,4rem);line-height:1.05;margin-bottom:1rem;color:var(--cream);}
+.hero h1 em{font-style:italic;color:var(--gl);}
+.hero p{color:var(--muted);line-height:1.75;font-size:0.9rem;}
+.hero-btns{display:flex;flex-direction:column;gap:0.7rem;margin-top:1.5rem;}
+.btn-gold{background:var(--gold);color:var(--bg);padding:0.9rem 1.5rem;font-weight:600;font-size:0.88rem;border:none;cursor:pointer;font-family:'Source Sans 3',sans-serif;text-align:center;-webkit-tap-highlight-color:transparent;}
+.btn-outline{background:transparent;color:var(--cream);padding:0.9rem 1.5rem;font-weight:600;font-size:0.88rem;border:1px solid var(--border);cursor:pointer;font-family:'Source Sans 3',sans-serif;text-align:center;}
+/* ERA BOXES */
+.era-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.5rem;}
+.era-box{background:var(--card);padding:1.1rem;-webkit-tap-highlight-color:transparent;}
+.era-box:active{background:#2e2410;}
+.era-num{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);font-weight:900;line-height:1;margin-bottom:0.3rem;}
+.era-box h4{font-size:0.82rem;font-weight:600;margin-bottom:0.2rem;}
+.era-box p{font-size:0.7rem;color:var(--muted);line-height:1.4;}
+.section{padding:1.8rem 1.1rem;}
+.section-label{font-size:0.62rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:0.4rem;}
+.section h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:1.3rem;color:var(--cream);}
+.temas-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.tema-row{background:var(--card);padding:1.1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:0.8rem;-webkit-tap-highlight-color:transparent;}
+.tema-row:active{background:#2a1f0f;}
+.tema-period{font-family:'Playfair Display',serif;font-size:0.72rem;color:var(--gold);min-width:85px;font-style:italic;flex-shrink:0;}
+.tema-title{font-weight:600;font-size:0.88rem;}
+.tema-sub{font-size:0.72rem;color:var(--muted);margin-top:0.1rem;}
+.tema-badge{font-size:0.6rem;font-weight:600;padding:0.18rem 0.6rem;border:1px solid var(--border);color:var(--muted);text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.geo-bg{background:#140f07;border-top:1px solid var(--border);}
+.geo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:1rem;}
+.geo-card{border:1px solid var(--border);padding:1.2rem;background:var(--card);}
+.geo-icon{font-size:1.6rem;margin-bottom:0.6rem;}
+.geo-card h3{font-family:'Playfair Display',serif;font-size:0.95rem;margin-bottom:0.3rem;color:var(--cream);}
+.geo-card p{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+.rec-row{display:grid;grid-template-columns:1fr;gap:1.1rem;margin-top:1rem;}
+.rec-card{background:var(--card);padding:1.2rem;border-bottom:2px solid #8b1a1a;}
+.rec-type{font-size:0.6rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;}
+.rec-card h3{font-weight:600;font-size:0.88rem;margin-bottom:0.25rem;}
+.rec-card p{font-size:0.75rem;color:var(--muted);line-height:1.4;}
+.rec-card a{display:inline-block;margin-top:0.55rem;color:var(--gl);font-size:0.72rem;text-decoration:none;font-weight:600;}
+footer{border-top:1px solid var(--border);padding:1.3rem 1.1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.72rem;color:var(--muted);}
+@media(min-width:580px){
+  .hero{padding:3.5rem 2rem 2.5rem;}
+  .hero-btns{flex-direction:row;}
+  .section{padding:2.5rem 2rem;}
+  .rec-row{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:900px){
+  .hero{padding:5rem 3rem 3rem;}
+  .section{padding:3rem 3rem;}
+  footer{flex-direction:row;justify-content:space-between;padding:1.8rem 3rem;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo-text">Historia&Geo</div>
+    <a href="index.html" class="back-link">← Portal</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="index.html">🏠 Portal</a><a href="matematicas.html">➗ Matemáticas</a><a href="matematicas-avanzadas.html">∫ Avanzadas</a><a href="ciencias.html">🔬 Ciencias</a><a href="espanol-lectura.html">📝 Español</a><a href="english.html">🇺🇸 English</a><a href="computacion.html">💻 Computación</a><a href="civica-artes.html">⚖️ Cívica</a>
+</div>
+<section class="hero">
+  <div class="epoch-tag">Telesecundaria · Historia y Geografía</div>
+  <h1>El mundo tiene <em>historia.</em> Conócela.</h1>
+  <p>Viaja por el tiempo: civilizaciones antiguas, la historia de México y la geografía del mundo.</p>
+  <div class="hero-btns">
+    <button class="btn-gold">Explorar periodos</button>
+    <button class="btn-outline">Ver mapas</button>
+  </div>
+  <div class="era-grid">
+    <div class="era-box"><div class="era-num">1°</div><h4>Historia Universal I</h4><p>Prehistoria a Edad Media</p></div>
+    <div class="era-box"><div class="era-num">2°</div><h4>Historia Universal II</h4><p>Renacimiento — Contemporáneo</p></div>
+    <div class="era-box"><div class="era-num">3°</div><h4>Historia de México</h4><p>Prehispánico al siglo XXI</p></div>
+    <div class="era-box"><div class="era-num">🗺</div><h4>Geografía</h4><p>Espacio, población y ambiente</p></div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-label">Cronología</div>
+  <h2>Temas por período</h2>
+  <div class="temas-list">
+    <div class="tema-row"><div class="tema-period">Prehistoria</div><div><div class="tema-title">Primeras civilizaciones</div><div class="tema-sub">Mesopotamia, Egipto, Grecia y Roma</div></div><span class="tema-badge">1° grado</span></div>
+    <div class="tema-row"><div class="tema-period">Siglo XV–XVII</div><div><div class="tema-title">Renacimiento y Conquista</div><div class="tema-sub">Europa y el encuentro de dos mundos</div></div><span class="tema-badge">2° grado</span></div>
+    <div class="tema-row"><div class="tema-period">Siglo XVIII–XIX</div><div><div class="tema-title">Revoluciones e Independencias</div><div class="tema-sub">Rev. Francesa, Independencia de México</div></div><span class="tema-badge">2° — 3°</span></div>
+    <div class="tema-row"><div class="tema-period">Siglo XX</div><div><div class="tema-title">Guerras Mundiales</div><div class="tema-sub">La Revolución Mexicana y el mundo</div></div><span class="tema-badge">3° grado</span></div>
+    <div class="tema-row"><div class="tema-period">Prehispánico</div><div><div class="tema-title">Culturas de México</div><div class="tema-sub">Mayas, aztecas, zapotecas</div></div><span class="tema-badge">3° grado</span></div>
+  </div>
+</section>
+<section class="section geo-bg">
+  <div class="section-label">Geografía</div>
+  <h2>Temas de Geografía</h2>
+  <div class="geo-grid">
+    <div class="geo-card"><div class="geo-icon">🌍</div><h3>Espacio Geográfico</h3><p>Coordenadas, mapas y escalas.</p></div>
+    <div class="geo-card"><div class="geo-icon">🌋</div><h3>Relieve y Clima</h3><p>Formas del relieve y tipos de clima.</p></div>
+    <div class="geo-card"><div class="geo-icon">👥</div><h3>Población</h3><p>Distribución y migraciones.</p></div>
+    <div class="geo-card"><div class="geo-icon">🏭</div><h3>Economía</h3><p>Recursos naturales y desarrollo.</p></div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-label">Recursos</div>
+  <h2>Sitios recomendados</h2>
+  <div class="rec-row">
+    <div class="rec-card"><div class="rec-type">🗺 Mapas</div><h3>Google Earth</h3><p>Explora el mundo con imágenes satelitales.</p><a href="https://earth.google.com" target="_blank">Abrir →</a></div>
+    <div class="rec-card"><div class="rec-type">📖 Historia</div><h3>Nat. Geographic Historia</h3><p>Artículos y videos sobre historia mundial.</p><a href="https://historia.nationalgeographic.com.es" target="_blank">Ir al sitio →</a></div>
+    <div class="rec-card"><div class="rec-type">🏛 Museos</div><h3>INAH México</h3><p>Visitas virtuales a zonas arqueológicas.</p><a href="https://www.inah.gob.mx" target="_blank">Ir al sitio →</a></div>
+  </div>
+</section>
+<footer><span>HistoriaTS · Telesecundaria</span><span>Ciclo 2025–2026</span></footer>
+<script>
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function open_(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function close_(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?close_():open_());
+nc.addEventListener('click',close_);ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close_));
+</script>
+</body>
+</html>

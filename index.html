@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal TS — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Epilogue:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--surface:#0f1520;--card:#141c2b;--border:rgba(255,255,255,0.07);--text:#f0f4ff;--muted:#7a86a0;--math:#3b82f6;--mathAdv:#818cf8;--sci:#22c55e;--hist:#f59e0b;--esp:#a855f7;--eng:#ef4444;--comp:#06b6d4;--civic:#14b8a6;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(59,130,246,0.1) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 90% 90%,rgba(168,85,247,0.07) 0%,transparent 55%);}
+/* NAV */
+header{position:sticky;top:0;z-index:200;background:rgba(8,12,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;}
+.logo-wrap{display:flex;align-items:center;gap:0.55rem;text-decoration:none;color:var(--text);}
+.logo-icon{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,var(--math),var(--esp));display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;}
+.cycle-tag{font-size:0.65rem;color:var(--muted);border:1px solid var(--border);padding:0.22rem 0.65rem;border-radius:999px;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.35rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:21px;height:2px;background:var(--text);border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+/* OVERLAY MENU */
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(8,12,20,0.98);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.3rem;padding:2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.22s ease;}
+.nav-overlay a{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:700;color:rgba(255,255,255,0.75);text-decoration:none;transition:color 0.2s;}
+.nav-overlay a:active{color:var(--math);}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:var(--muted);font-size:1.6rem;cursor:pointer;line-height:1;}
+/* HERO */
+.hero{position:relative;z-index:1;padding:2.5rem 1.1rem 2rem;text-align:center;}
+.hero-kicker{display:inline-block;font-size:0.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:1rem;background:var(--surface);padding:0.28rem 0.85rem;border-radius:999px;border:1px solid var(--border);}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,9vw,4.5rem);line-height:0.95;letter-spacing:-0.03em;margin-bottom:0.9rem;}
+.grad-text{background:linear-gradient(100deg,var(--math),var(--comp) 40%,var(--sci) 65%,var(--hist));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{color:var(--muted);font-size:0.92rem;max-width:460px;margin:0 auto;line-height:1.7;}
+/* STATS */
+.stats-bar{display:flex;justify-content:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.stat{flex:1;text-align:center;padding:1.3rem 0.4rem;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;line-height:1;}
+.stat-l{font-size:0.58rem;color:var(--muted);margin-top:0.2rem;text-transform:uppercase;letter-spacing:0.1em;}
+.s1{color:var(--math);}.s2{color:var(--sci);}.s3{color:var(--comp);}
+/* MATERIAS */
+.section{position:relative;z-index:1;padding:1.8rem 1.1rem;}
+.section-hdr{margin-bottom:1.3rem;}
+.section-hdr h2{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;}
+.section-hdr p{color:var(--muted);font-size:0.8rem;margin-top:0.2rem;}
+.cat-label{font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);padding:0.45rem 0;border-bottom:1px solid var(--border);margin-bottom:0.85rem;}
+.materias-grid{display:grid;grid-template-columns:1fr;gap:0.65rem;margin-bottom:2rem;}
+.m-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:1rem;text-decoration:none;color:inherit;display:flex;gap:0.85rem;align-items:center;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s;}
+.m-card:active{opacity:0.75;}
+.m-icon{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.3rem;}
+.mi-math{background:rgba(59,130,246,0.12);}.mi-mathAdv{background:rgba(129,140,248,0.12);}.mi-sci{background:rgba(34,197,94,0.12);}.mi-hist{background:rgba(245,158,11,0.12);}.mi-esp{background:rgba(168,85,247,0.12);}.mi-eng{background:rgba(239,68,68,0.12);}.mi-comp{background:rgba(6,182,212,0.12);}.mi-civic{background:rgba(20,184,166,0.12);}
+.m-info{flex:1;min-width:0;}
+.m-tag{font-size:0.56rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.12rem;}
+.tc-math{color:var(--math);}.tc-mathAdv{color:var(--mathAdv);}.tc-sci{color:var(--sci);}.tc-hist{color:var(--hist);}.tc-esp{color:var(--esp);}.tc-eng{color:var(--eng);}.tc-comp{color:var(--comp);}.tc-civic{color:var(--civic);}
+.m-info h3{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-info p{font-size:0.73rem;color:var(--muted);line-height:1.4;margin-top:0.08rem;}
+.m-chips{display:flex;gap:0.28rem;margin-top:0.45rem;overflow:hidden;}
+.chip{font-size:0.56rem;font-weight:600;padding:0.1rem 0.42rem;border-radius:4px;border:1px solid var(--border);color:var(--muted);white-space:nowrap;}
+.m-arrow{color:var(--muted);font-size:1.1rem;flex-shrink:0;}
+/* EXT */
+.ext-section{position:relative;z-index:1;margin:0 1.1rem 2rem;background:var(--surface);border-radius:14px;padding:1.3rem;border:1px solid var(--border);}
+.ext-hdr h2{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:0.2rem;}
+.ext-hdr p{font-size:0.75rem;color:var(--muted);margin-bottom:1rem;}
+.ext-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;}
+.ext-card{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:0.85rem;text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent;}
+.ext-card:active{opacity:0.75;}
+.ext-emoji{font-size:1.15rem;margin-bottom:0.25rem;}
+.ext-card h4{font-size:0.78rem;font-weight:700;}
+.ext-card p{font-size:0.65rem;color:var(--muted);line-height:1.35;margin-top:0.1rem;}
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.3rem 1.1rem;text-align:center;font-size:0.72rem;color:var(--muted);}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;color:var(--text);display:block;margin-bottom:0.25rem;}
+/* TABLET */
+@media(min-width:580px){
+  .hamburger{display:none;}
+  .nav-inner{padding:1rem 2rem;}
+  .hero{padding:3.5rem 2rem 2.5rem;}
+  .section{padding:2.5rem 2rem;}
+  .materias-grid{grid-template-columns:1fr 1fr;}
+  .ext-grid{grid-template-columns:repeat(4,1fr);}
+  .ext-section{margin:0 2rem 2.5rem;}
+}
+/* DESKTOP */
+@media(min-width:900px){
+  .nav-inner{padding:1rem 3rem;}
+  .hero{padding:5rem 3rem 3rem;}
+  .section{padding:3rem 3rem;}
+  .materias-grid{grid-template-columns:repeat(3,1fr);}
+  .ext-section{margin:0 3rem 3rem;}
+  footer{padding:1.8rem 3rem;text-align:left;display:flex;justify-content:space-between;align-items:center;}
+  .footer-logo{display:inline;margin-bottom:0;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo-wrap">
+      <div class="logo-icon">🏫</div>
+      <div class="logo-text">Portal TS</div>
+    </a>
+    <span class="cycle-tag">Ciclo 2025–2026</span>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="matematicas.html">Matemáticas</a>
+  <a href="matematicas-avanzadas.html">Mat. Avanzadas</a>
+  <a href="ciencias.html">Ciencias</a>
+  <a href="historia-geografia.html">Historia</a>
+  <a href="espanol-lectura.html">Español</a>
+  <a href="english.html">English</a>
+  <a href="computacion.html">Computación</a>
+  <a href="civica-artes.html">Cívica & Artes</a>
+</div>
+<section class="hero">
+  <span class="hero-kicker">Portal educativo · Alumnos</span>
+  <h1>Tu lugar para<br><span class="grad-text">aprender</span></h1>
+  <p>Accede a todas tus materias en un solo lugar.</p>
+</section>
+<div class="stats-bar">
+  <div class="stat"><div class="stat-n s1">9</div><div class="stat-l">Materias</div></div>
+  <div class="stat"><div class="stat-n s2">3</div><div class="stat-l">Grados</div></div>
+  <div class="stat"><div class="stat-n s3">∞</div><div class="stat-l">Recursos</div></div>
+</div>
+<section class="section">
+  <div class="section-hdr"><h2>Mis materias</h2><p>Toca una para comenzar</p></div>
+  <div class="cat-label">📐 Matemáticas</div>
+  <div class="materias-grid">
+    <a href="matematicas.html" class="m-card"><div class="m-icon mi-math">➗</div><div class="m-info"><div class="m-tag tc-math">Matemáticas</div><h3>Matemáticas</h3><p>Álgebra, geometría, estadística</p><div class="m-chips"><span class="chip">Álgebra</span><span class="chip">Geometría</span></div></div><span class="m-arrow">›</span></a>
+    <a href="matematicas-avanzadas.html" class="m-card"><div class="m-icon mi-mathAdv">∫</div><div class="m-info"><div class="m-tag tc-mathAdv">Avanzadas</div><h3>Mat. Avanzadas</h3><p>Baldor, trigonometría, cálculo</p><div class="m-chips"><span class="chip">Baldor</span><span class="chip">Derivadas</span></div></div><span class="m-arrow">›</span></a>
+  </div>
+  <div class="cat-label">🔬 Ciencias y Humanidades</div>
+  <div class="materias-grid">
+    <a href="ciencias.html" class="m-card"><div class="m-icon mi-sci">🔬</div><div class="m-info"><div class="m-tag tc-sci">Ciencias</div><h3>Ciencias</h3><p>Biología, física, química</p><div class="m-chips"><span class="chip">Biología</span><span class="chip">Física</span></div></div><span class="m-arrow">›</span></a>
+    <a href="historia-geografia.html" class="m-card"><div class="m-icon mi-hist">🏛️</div><div class="m-info"><div class="m-tag tc-hist">Historia</div><h3>Historia & Geo</h3><p>México, universal, mapas</p><div class="m-chips"><span class="chip">Historia MX</span><span class="chip">Mapas</span></div></div><span class="m-arrow">›</span></a>
+    <a href="civica-artes.html" class="m-card"><div class="m-icon mi-civic">⚖️</div><div class="m-info"><div class="m-tag tc-civic">Cívica</div><h3>Cívica & Artes</h3><p>Valores, derechos, arte</p><div class="m-chips"><span class="chip">Derechos</span><span class="chip">Artes</span></div></div><span class="m-arrow">›</span></a>
+  </div>
+  <div class="cat-label">📖 Lenguajes</div>
+  <div class="materias-grid">
+    <a href="espanol-lectura.html" class="m-card"><div class="m-icon mi-esp">📝</div><div class="m-info"><div class="m-tag tc-esp">Español</div><h3>Español & Lectura</h3><p>Escritura, gramática, literatura</p><div class="m-chips"><span class="chip">Lectura</span><span class="chip">Redacción</span></div></div><span class="m-arrow">›</span></a>
+    <a href="english.html" class="m-card"><div class="m-icon mi-eng">🇺🇸</div><div class="m-info"><div class="m-tag tc-eng">English</div><h3>English</h3><p>Speaking, grammar, vocabulary</p><div class="m-chips"><span class="chip">Grammar</span><span class="chip">Speaking</span></div></div><span class="m-arrow">›</span></a>
+  </div>
+  <div class="cat-label">💻 Tecnología</div>
+  <div class="materias-grid">
+    <a href="computacion.html" class="m-card"><div class="m-icon mi-comp">💻</div><div class="m-info"><div class="m-tag tc-comp">Computación</div><h3>Computación</h3><p>Word, Excel, PowerPoint, Internet</p><div class="m-chips"><span class="chip">Word</span><span class="chip">Excel</span><span class="chip">PPT</span></div></div><span class="m-arrow">›</span></a>
+  </div>
+</section>
+<div class="ext-section">
+  <div class="ext-hdr"><h2>Recursos gratuitos</h2><p>Plataformas de apoyo recomendadas</p></div>
+  <div class="ext-grid">
+    <a href="https://es.khanacademy.org" target="_blank" class="ext-card"><div class="ext-emoji">🎓</div><h4>Khan Academy</h4><p>Todas las materias</p></a>
+    <a href="https://phet.colorado.edu/es/" target="_blank" class="ext-card"><div class="ext-emoji">⚗️</div><h4>PhET</h4><p>Lab virtual ciencias</p></a>
+    <a href="https://www.desmos.com/calculator" target="_blank" class="ext-card"><div class="ext-emoji">📈</div><h4>Desmos</h4><p>Graficadora online</p></a>
+    <a href="https://www.duolingo.com" target="_blank" class="ext-card"><div class="ext-emoji">🦜</div><h4>Duolingo</h4><p>Aprende inglés</p></a>
+    <a href="https://edu.gcfglobal.org/es/" target="_blank" class="ext-card"><div class="ext-emoji">🖥️</div><h4>GCFGlobal</h4><p>Tutoriales Office</p></a>
+    <a href="https://www.geogebra.org" target="_blank" class="ext-card"><div class="ext-emoji">📐</div><h4>GeoGebra</h4><p>Geometría interactiva</p></a>
+    <a href="https://earth.google.com" target="_blank" class="ext-card"><div class="ext-emoji">🌍</div><h4>Google Earth</h4><p>Mapas del mundo</p></a>
+    <a href="https://quizlet.com" target="_blank" class="ext-card"><div class="ext-emoji">🃏</div><h4>Quizlet</h4><p>Tarjetas de repaso</p></a>
+  </div>
+</div>
+<footer><span class="footer-logo">Portal TS</span><span>Telesecundaria · 2025–2026</span></footer>
+<script>
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function openMenu(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function closeMenu(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?closeMenu():openMenu());
+nc.addEventListener('click',closeMenu);
+ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+</script>
+</body>
+</html>

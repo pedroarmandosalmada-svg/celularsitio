@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cívica y Artes — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafaf8;--bg2:#f2f0ea;--card:#fff;--teal:#0e7c7b;--tl:#3bb8b7;--tp:#d4f1f1;--coral:#e05c44;--cp:#fde8e4;--text:#1a1a1a;--muted:#6e6e6e;--border:rgba(0,0,0,0.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);}
+header{padding:0;border-bottom:2px solid var(--text);background:var(--bg);position:sticky;top:0;z-index:200;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;gap:0.5rem;}
+.logo-text{font-family:'Abril Fatface',cursive;font-size:1rem;}
+.back-link{font-size:0.75rem;color:var(--muted);text-decoration:none;white-space:nowrap;font-weight:600;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.3rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,0.97);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.nav-overlay a{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,0.75);text-decoration:none;}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.5rem;cursor:pointer;}
+/* SPLIT HERO — stack on mobile */
+.hero-split{display:grid;grid-template-columns:1fr;}
+.hero-civica{background:var(--teal);padding:2.5rem 1.1rem;position:relative;overflow:hidden;}
+.hero-civica::before{content:'🏛';position:absolute;right:-1rem;bottom:-1.5rem;font-size:8rem;opacity:0.09;line-height:1;pointer-events:none;}
+.hero-artes{background:var(--coral);padding:2.5rem 1.1rem;position:relative;overflow:hidden;}
+.hero-artes::before{content:'🎨';position:absolute;right:-1rem;bottom:-1.5rem;font-size:8rem;opacity:0.09;line-height:1;pointer-events:none;}
+.hero-eyebrow{font-size:0.62rem;font-weight:700;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:0.8rem;}
+.hero h1{font-family:'Abril Fatface',cursive;font-size:clamp(1.8rem,7vw,3rem);color:#fff;line-height:1.05;margin-bottom:0.9rem;}
+.hero p{color:rgba(255,255,255,0.75);font-size:0.88rem;line-height:1.7;max-width:400px;}
+.hero-btn{display:inline-block;margin-top:1.3rem;background:#fff;padding:0.8rem 1.6rem;font-weight:700;font-size:0.85rem;border:none;cursor:pointer;font-family:'Jost',sans-serif;border-radius:4px;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.hero-btn.teal{color:var(--teal);}
+.hero-btn.coral{color:var(--coral);}
+/* SECTIONS */
+.section{padding:1.8rem 1.1rem;}
+.section-strip{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.3rem;}
+.strip-bar{width:5px;height:32px;border-radius:3px;flex-shrink:0;}
+.bar-teal{background:var(--teal);}.bar-coral{background:var(--coral);}.bar-plum{background:#5c3460;}
+.section-strip h2{font-family:'Abril Fatface',cursive;font-size:1.4rem;}
+.civica-grid{display:grid;grid-template-columns:1fr;gap:1rem;}
+.c-card{background:var(--card);border-radius:11px;overflow:hidden;border:1px solid var(--border);-webkit-tap-highlight-color:transparent;}
+.c-card:active{opacity:0.85;}
+.c-card-top{padding:1.1rem 1.2rem 0.7rem;}
+.c-card-icon{font-size:1.6rem;margin-bottom:0.5rem;}
+.c-card h3{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;}
+.c-card p{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+.c-card-footer{padding:0.6rem 1.2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
+.c-grado{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+.c-arrow{color:var(--teal);font-size:0.85rem;}
+/* VALORES */
+.valores-bg{background:var(--tp);}
+.valores-grid{display:flex;flex-wrap:wrap;gap:0.6rem;}
+.valor-pill{background:#fff;border:1px solid rgba(14,124,123,0.2);border-radius:999px;padding:0.5rem 1.1rem;font-size:0.82rem;font-weight:600;color:var(--teal);display:flex;align-items:center;gap:0.4rem;-webkit-tap-highlight-color:transparent;}
+.valor-pill:active{background:var(--teal);color:#fff;}
+/* ARTES */
+.artes-bg{background:var(--bg2);}
+.artes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.arte-card{border-radius:13px;overflow:hidden;border:1px solid var(--border);background:var(--card);-webkit-tap-highlight-color:transparent;}
+.arte-card:active{opacity:0.85;}
+.arte-banner{height:70px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+.ab-coral{background:var(--cp);}.ab-sand{background:#faf3e8;}.ab-plum{background:#ede0f0;}.ab-teal{background:var(--tp);}
+.arte-body{padding:0.9rem 1rem;}
+.arte-body h3{font-size:0.88rem;font-weight:700;margin-bottom:0.25rem;}
+.arte-body p{font-size:0.72rem;color:var(--muted);line-height:1.45;}
+.arte-tag{display:inline-block;margin-top:0.5rem;font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:0.15rem 0.5rem;border-radius:3px;}
+.at-coral{background:var(--cp);color:var(--coral);}.at-sand{background:#faf3e8;color:#8b6c2a;}.at-plum{background:#ede0f0;color:#5c3460;}.at-teal{background:var(--tp);color:var(--teal);}
+/* PROYECTOS */
+.proyectos-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:11px;overflow:hidden;}
+.proyecto-row{background:var(--card);padding:1rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:0.8rem;-webkit-tap-highlight-color:transparent;}
+.proyecto-row:active{background:var(--bg2);}
+.proy-num{font-family:'Abril Fatface',cursive;font-size:1.2rem;color:var(--coral);min-width:2rem;}
+.proy-title{font-weight:700;font-size:0.85rem;}
+.proy-sub{font-size:0.7rem;color:var(--muted);margin-top:0.1rem;}
+.proy-badge{font-size:0.6rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:999px;background:var(--cp);color:var(--coral);white-space:nowrap;flex-shrink:0;}
+/* REC */
+.rec-row{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;margin-top:1rem;}
+.rec-item{background:var(--card);border-radius:11px;padding:1.1rem;border:1px solid var(--border);}
+.ri-e{font-size:1.3rem;margin-bottom:0.4rem;}
+.rec-item h4{font-size:0.85rem;font-weight:700;margin-bottom:0.2rem;}
+.rec-item p{font-size:0.72rem;color:var(--muted);line-height:1.4;}
+.rec-item a{display:inline-block;margin-top:0.5rem;color:var(--teal);font-size:0.72rem;font-weight:700;text-decoration:none;}
+footer{border-top:2px solid var(--text);padding:1.3rem 1.1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.72rem;color:var(--muted);}
+footer strong{color:var(--text);font-family:'Abril Fatface',cursive;}
+@media(min-width:580px){
+  .hero-split{grid-template-columns:1fr 1fr;}
+  .section{padding:2.5rem 2rem;}
+  .civica-grid{grid-template-columns:repeat(2,1fr);}
+  .artes-grid{grid-template-columns:repeat(4,1fr);}
+  .rec-row{grid-template-columns:repeat(4,1fr);}
+}
+@media(min-width:900px){
+  .civica-grid{grid-template-columns:repeat(3,1fr);}
+  .section{padding:3.5rem 3rem;}
+  footer{flex-direction:row;justify-content:space-between;padding:1.8rem 3rem;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo-text">Cívica & Artes</div>
+    <a href="index.html" class="back-link">← Portal</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="index.html">🏠 Portal</a><a href="matematicas.html">➗ Matemáticas</a><a href="matematicas-avanzadas.html">∫ Avanzadas</a><a href="ciencias.html">🔬 Ciencias</a><a href="historia-geografia.html">🏛️ Historia</a><a href="espanol-lectura.html">📝 Español</a><a href="english.html">🇺🇸 English</a><a href="computacion.html">💻 Computación</a>
+</div>
+<div class="hero-split">
+  <div class="hero-civica">
+    <div class="hero-eyebrow">Formación Cívica y Ética</div>
+    <h1>Ciudadanos con valores.</h1>
+    <p>Derechos humanos, democracia, identidad y convivencia.</p>
+    <a href="#civica" class="hero-btn teal">Explorar temas</a>
+  </div>
+  <div class="hero-artes">
+    <div class="hero-eyebrow">Educación Artística</div>
+    <h1>Crea, expresa, imagina.</h1>
+    <p>Música, artes visuales, teatro y danza.</p>
+    <a href="#artes" class="hero-btn coral">Ver disciplinas</a>
+  </div>
+</div>
+<section class="section" id="civica">
+  <div class="section-strip"><div class="strip-bar bar-teal"></div><h2>Formación Cívica y Ética</h2></div>
+  <div class="civica-grid">
+    <div class="c-card"><div class="c-card-top"><div class="c-card-icon">⚖️</div><h3>Derechos Humanos</h3><p>Conoce tus derechos fundamentales y cómo defenderlos.</p></div><div class="c-card-footer"><span class="c-grado">1° grado</span><span class="c-arrow">→</span></div></div>
+    <div class="c-card"><div class="c-card-top"><div class="c-card-icon">🇲🇽</div><h3>Identidad y Cultura</h3><p>Identidad personal, nacional y diversidad cultural.</p></div><div class="c-card-footer"><span class="c-grado">1° — 2° grado</span><span class="c-arrow">→</span></div></div>
+    <div class="c-card"><div class="c-card-top"><div class="c-card-icon">🗳️</div><h3>Democracia</h3><p>Valores democráticos, participación y vida en comunidad.</p></div><div class="c-card-footer"><span class="c-grado">2° grado</span><span class="c-arrow">→</span></div></div>
+    <div class="c-card"><div class="c-card-top"><div class="c-card-icon">🤝</div><h3>Convivencia y Paz</h3><p>Resolución de conflictos, empatía y respeto.</p></div><div class="c-card-footer"><span class="c-grado">1° — 3° grado</span><span class="c-arrow">→</span></div></div>
+    <div class="c-card"><div class="c-card-top"><div class="c-card-icon">📜</div><h3>Constitución</h3><p>Artículos fundamentales, poderes del Estado y leyes.</p></div><div class="c-card-footer"><span class="c-grado">3° grado</span><span class="c-arrow">→</span></div></div>
+    <div class="c-card"><div class="c-card-top"><div class="c-card-icon">🌱</div><h3>Cuidado del Ambiente</h3><p>Responsabilidad ambiental y desarrollo sustentable.</p></div><div class="c-card-footer"><span class="c-grado">2° — 3° grado</span><span class="c-arrow">→</span></div></div>
+  </div>
+</section>
+<section class="section valores-bg">
+  <div class="section-strip"><div class="strip-bar bar-teal"></div><h2>Valores fundamentales</h2></div>
+  <div class="valores-grid">
+    <div class="valor-pill">🫂 Respeto</div><div class="valor-pill">⚖️ Justicia</div><div class="valor-pill">💙 Empatía</div><div class="valor-pill">🕊️ Tolerancia</div><div class="valor-pill">💡 Responsabilidad</div><div class="valor-pill">🤲 Solidaridad</div><div class="valor-pill">🗣️ Libertad</div><div class="valor-pill">🌍 Sustentabilidad</div><div class="valor-pill">📖 Honestidad</div><div class="valor-pill">✨ Dignidad</div>
+  </div>
+</section>
+<section class="section artes-bg" id="artes">
+  <div class="section-strip"><div class="strip-bar bar-coral"></div><h2>Educación Artística</h2></div>
+  <div class="artes-grid">
+    <div class="arte-card"><div class="arte-banner ab-coral">🎨</div><div class="arte-body"><h3>Artes Visuales</h3><p>Dibujo, pintura y técnicas plásticas.</p><span class="arte-tag at-coral">Plástica</span></div></div>
+    <div class="arte-card"><div class="arte-banner ab-sand">🎵</div><div class="arte-body"><h3>Música</h3><p>Lectura musical, ritmo y canto.</p><span class="arte-tag at-sand">Sonora</span></div></div>
+    <div class="arte-card"><div class="arte-banner ab-plum">🎭</div><div class="arte-body"><h3>Teatro</h3><p>Expresión, actuación y montaje.</p><span class="arte-tag at-plum">Escénica</span></div></div>
+    <div class="arte-card"><div class="arte-banner ab-teal">💃</div><div class="arte-body"><h3>Danza</h3><p>Danza folclórica y expresión.</p><span class="arte-tag at-teal">Corporal</span></div></div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-strip"><div class="strip-bar bar-plum"></div><h2>Proyectos creativos</h2></div>
+  <div class="proyectos-list">
+    <div class="proyecto-row"><div style="display:flex;align-items:center;gap:0.8rem;flex:1;min-width:0"><div class="proy-num">01</div><div><div class="proy-title">Mural de los derechos humanos</div><div class="proy-sub">Cívica + Artes visuales</div></div></div><span class="proy-badge">Colaborativo</span></div>
+    <div class="proyecto-row"><div style="display:flex;align-items:center;gap:0.8rem;flex:1;min-width:0"><div class="proy-num">02</div><div><div class="proy-title">Obra de teatro sobre democracia</div><div class="proy-sub">Cívica + Teatro</div></div></div><span class="proy-badge">Escénico</span></div>
+    <div class="proyecto-row"><div style="display:flex;align-items:center;gap:0.8rem;flex:1;min-width:0"><div class="proy-num">03</div><div><div class="proy-title">Canción por el medio ambiente</div><div class="proy-sub">Ética ambiental + Música</div></div></div><span class="proy-badge">Musical</span></div>
+    <div class="proyecto-row"><div style="display:flex;align-items:center;gap:0.8rem;flex:1;min-width:0"><div class="proy-num">04</div><div><div class="proy-title">Festival de danza regional</div><div class="proy-sub">Identidad cultural + Danza</div></div></div><span class="proy-badge">Cultural</span></div>
+  </div>
+</section>
+<section class="section" style="background:var(--bg2)">
+  <div class="section-strip"><div class="strip-bar bar-teal"></div><h2>Recursos recomendados</h2></div>
+  <div class="rec-row">
+    <div class="rec-item"><div class="ri-e">🏛️</div><h4>CNDH México</h4><p>Recursos sobre Derechos Humanos para jóvenes.</p><a href="https://www.cndh.org.mx" target="_blank">Ir →</a></div>
+    <div class="rec-item"><div class="ri-e">🎨</div><h4>Artes UNAM</h4><p>Galería virtual y recursos artísticos.</p><a href="https://www.artes.unam.mx" target="_blank">Ver →</a></div>
+    <div class="rec-item"><div class="ri-e">🎵</div><h4>INBA</h4><p>Cursos y talleres artísticos.</p><a href="https://inba.gob.mx" target="_blank">Ver →</a></div>
+    <div class="rec-item"><div class="ri-e">🌍</div><h4>UNICEF México</h4><p>Derechos de niñas y jóvenes.</p><a href="https://www.unicef.org/mexico/educacion" target="_blank">Ir →</a></div>
+  </div>
+</section>
+<footer><strong>Cívica & Artes TS</strong><span>Telesecundaria · 2025–2026</span></footer>
+<script>
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function open_(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function close_(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?close_():open_());
+nc.addEventListener('click',close_);ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close_));
+</script>
+</body>
+</html>

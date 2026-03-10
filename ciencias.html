@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciencias — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f2eb;--bg2:#eceadf;--card:#fff;--green:#2d6a4f;--gl:#52b788;--gp:#d8f3dc;--amber:#e07a1f;--text:#1a2e1e;--muted:#6b7c6e;--border:rgba(45,106,79,0.15);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+header{background:var(--green);position:sticky;top:0;z-index:200;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;gap:0.5rem;}
+.logo-text{font-family:'Lora',serif;font-size:1rem;color:#fff;font-weight:700;}
+.back-link{font-size:0.75rem;color:rgba(255,255,255,0.65);text-decoration:none;white-space:nowrap;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.3rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(15,40,25,0.98);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.nav-overlay a{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,0.75);text-decoration:none;}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.5rem;cursor:pointer;}
+.hero{background:var(--green);padding:2.5rem 1.1rem 3rem;position:relative;overflow:hidden;}
+.hero::after{content:'🌿';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);font-size:8rem;opacity:0.08;line-height:1;pointer-events:none;}
+.hero-badge{display:inline-block;background:var(--gp);color:var(--green);font-size:0.68rem;font-weight:700;padding:0.25rem 0.8rem;border-radius:999px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(2rem,8vw,4rem);color:#fff;line-height:1.05;margin-bottom:0.9rem;}
+.hero h1 em{font-style:italic;color:var(--gl);}
+.hero p{color:rgba(255,255,255,0.75);font-size:0.9rem;line-height:1.7;max-width:460px;}
+.hero-btns{display:flex;flex-direction:column;gap:0.7rem;margin-top:1.5rem;}
+.btn-white{background:#fff;color:var(--green);padding:0.9rem 1.5rem;font-weight:700;font-size:0.88rem;border:none;cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;text-align:center;-webkit-tap-highlight-color:transparent;}
+.btn-ghost{background:transparent;color:#fff;padding:0.9rem 1.5rem;font-weight:600;font-size:0.88rem;border:1px solid rgba(255,255,255,0.4);cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;text-align:center;}
+.section{padding:1.8rem 1.1rem;}
+.section-eyebrow{font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.35rem;}
+.section h2{font-family:'Lora',serif;font-size:1.4rem;margin-bottom:1.3rem;color:var(--text);}
+.unidades-grid{display:grid;grid-template-columns:1fr;gap:1.1rem;}
+.unidad-card{background:var(--card);border-radius:11px;overflow:hidden;box-shadow:0 2px 10px rgba(45,106,79,0.07);-webkit-tap-highlight-color:transparent;}
+.unidad-card:active{opacity:0.85;}
+.unidad-header{background:var(--gp);padding:1rem 1.2rem;display:flex;align-items:center;gap:0.8rem;}
+.unidad-icon{font-size:1.6rem;}
+.unidad-header h3{font-family:'Lora',serif;font-size:1rem;color:var(--green);}
+.unidad-body{padding:0.9rem 1.2rem 1.2rem;}
+.unidad-body p{font-size:0.8rem;color:var(--muted);line-height:1.55;}
+.unidad-tag{display:inline-block;margin-top:0.6rem;background:var(--gp);color:var(--green);font-size:0.65rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:999px;}
+.recursos-bg{background:var(--bg2);}
+.recursos-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1rem;}
+.recurso-item{background:var(--card);border-radius:9px;padding:1.2rem;border-left:3px solid var(--gl);}
+.r-badge{font-size:0.62rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;}
+.recurso-item h3{font-weight:700;font-size:0.9rem;margin-bottom:0.25rem;}
+.recurso-item p{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+.recurso-item a{display:inline-block;margin-top:0.55rem;color:var(--green);font-size:0.75rem;font-weight:700;text-decoration:none;}
+footer{background:var(--green);color:rgba(255,255,255,0.6);padding:1.3rem 1.1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.72rem;}
+footer strong{color:#fff;}
+@media(min-width:580px){
+  .hero{padding:3.5rem 2rem 3rem;}
+  .hero-btns{flex-direction:row;}
+  .btn-white,.btn-ghost{flex:0 0 auto;}
+  .section{padding:2.5rem 2rem;}
+  .unidades-grid{grid-template-columns:repeat(2,1fr);}
+  .recursos-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(min-width:900px){
+  .hero{padding:5rem 3rem 4rem;}
+  .section{padding:3.5rem 3rem;}
+  .unidades-grid{grid-template-columns:repeat(3,1fr);}
+  .recursos-grid{grid-template-columns:repeat(3,1fr);}
+  footer{flex-direction:row;justify-content:space-between;padding:1.8rem 3rem;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo-text">CienciasTS</div>
+    <a href="index.html" class="back-link">← Portal</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="index.html">🏠 Portal</a><a href="matematicas.html">➗ Matemáticas</a><a href="matematicas-avanzadas.html">∫ Avanzadas</a><a href="historia-geografia.html">🏛️ Historia</a><a href="espanol-lectura.html">📝 Español</a><a href="english.html">🇺🇸 English</a><a href="computacion.html">💻 Computación</a><a href="civica-artes.html">⚖️ Cívica</a>
+</div>
+<div class="hero">
+  <div class="hero-badge">Telesecundaria · Ciencias</div>
+  <h1>Descubre el <em>mundo</em> que te rodea</h1>
+  <p>Biología, física y química al alcance de todos. Aprende con experimentos y recursos visuales.</p>
+  <div class="hero-btns">
+    <button class="btn-white">Explorar temas</button>
+    <button class="btn-ghost">Ver recursos</button>
+  </div>
+</div>
+<section class="section">
+  <div class="section-eyebrow">Unidades de aprendizaje</div>
+  <h2>Bloques temáticos</h2>
+  <div class="unidades-grid">
+    <div class="unidad-card"><div class="unidad-header"><div class="unidad-icon">🧬</div><h3>Biología</h3></div><div class="unidad-body"><p>Célula, genética, ecosistemas, biodiversidad y salud humana.</p><span class="unidad-tag">1° y 2° grado</span></div></div>
+    <div class="unidad-card"><div class="unidad-header"><div class="unidad-icon">⚡</div><h3>Física</h3></div><div class="unidad-body"><p>Movimiento, fuerzas, energía, electricidad y ondas sonoras.</p><span class="unidad-tag">2° y 3° grado</span></div></div>
+    <div class="unidad-card"><div class="unidad-header"><div class="unidad-icon">🧪</div><h3>Química</h3></div><div class="unidad-body"><p>Materia, elementos, reacciones y tabla periódica.</p><span class="unidad-tag">3° grado</span></div></div>
+    <div class="unidad-card"><div class="unidad-header"><div class="unidad-icon">🌍</div><h3>Ecología</h3></div><div class="unidad-body"><p>Medio ambiente, cambio climático y cuidado de los recursos naturales.</p><span class="unidad-tag">1° — 3° grado</span></div></div>
+    <div class="unidad-card"><div class="unidad-header"><div class="unidad-icon">🔭</div><h3>Astronomía</h3></div><div class="unidad-body"><p>El universo, sistema solar y movimientos de la Tierra.</p><span class="unidad-tag">1° grado</span></div></div>
+    <div class="unidad-card"><div class="unidad-header"><div class="unidad-icon">🫀</div><h3>Cuerpo Humano</h3></div><div class="unidad-body"><p>Sistemas y órganos, salud, nutrición y reproducción.</p><span class="unidad-tag">1° y 2° grado</span></div></div>
+  </div>
+</section>
+<section class="section recursos-bg">
+  <div class="section-eyebrow">Recursos digitales</div>
+  <h2>Herramientas de apoyo</h2>
+  <div class="recursos-grid">
+    <div class="recurso-item"><div class="r-badge">🎬 Videos</div><h3>Kurzgesagt</h3><p>Videos animados sobre ciencia y el universo en español.</p><a href="https://www.youtube.com/@kurzgesagt" target="_blank">Ir al canal →</a></div>
+    <div class="recurso-item"><div class="r-badge">🧬 3D</div><h3>BioDigital Human</h3><p>Modelos 3D del cuerpo humano y sistemas biológicos.</p><a href="https://human.biodigital.com" target="_blank">Explorar →</a></div>
+    <div class="recurso-item"><div class="r-badge">⚗️ Lab virtual</div><h3>PhET Simulations</h3><p>Simulaciones de física, química y biología de la Univ. de Colorado.</p><a href="https://phet.colorado.edu/es/" target="_blank">Ver →</a></div>
+  </div>
+</section>
+<footer><strong>CienciasTS</strong><span>Telesecundaria · Ciclo 2025–2026</span></footer>
+<script>
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function open_(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function close_(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?close_():open_());
+nc.addEventListener('click',close_);ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close_));
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Español — Telesecundaria</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdf8f4;--bg2:#f5ede3;--card:#fff;--purple:#5c3d8f;--pl:#8b68c4;--pp:#ede6f7;--pink:#e05b8c;--text:#1e1524;--muted:#7a6b88;--border:rgba(92,61,143,0.12);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
+header{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.1rem;gap:0.5rem;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--purple);font-style:italic;font-weight:700;}
+.back-link{font-size:0.75rem;color:var(--muted);text-decoration:none;white-space:nowrap;}
+.hamburger{background:none;border:none;cursor:pointer;padding:0.3rem;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;}
+.hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all 0.28s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-overlay{display:none;position:fixed;inset:0;background:rgba(30,21,36,0.98);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;}
+.nav-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.nav-overlay a{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,0.75);text-decoration:none;}
+.nav-close{position:absolute;top:1rem;right:1.1rem;background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.5rem;cursor:pointer;}
+.hero{background:linear-gradient(135deg,var(--purple) 0%,#3d1a6e 100%);padding:2.5rem 1.1rem 3rem;position:relative;overflow:hidden;}
+.hero::before{content:'"';position:absolute;right:-2rem;top:-3rem;font-family:'Cormorant Garamond',serif;font-size:16rem;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.15);color:#fff;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;padding:0.25rem 0.8rem;border-radius:999px;margin-bottom:1rem;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,9vw,5rem);color:#fff;line-height:1;margin-bottom:0.9rem;font-weight:700;}
+.hero h1 em{font-style:italic;color:#f9c3d9;}
+.hero p{color:rgba(255,255,255,0.75);font-size:0.9rem;max-width:460px;line-height:1.75;}
+.hero-btns{display:flex;flex-direction:column;gap:0.7rem;margin-top:1.5rem;}
+.btn-white{background:#fff;color:var(--purple);padding:0.9rem 1.5rem;font-weight:800;font-size:0.88rem;border:none;cursor:pointer;border-radius:999px;font-family:'Nunito',sans-serif;text-align:center;-webkit-tap-highlight-color:transparent;}
+.btn-ghost-w{background:transparent;color:#fff;padding:0.9rem 1.5rem;font-weight:700;font-size:0.88rem;border:2px solid rgba(255,255,255,0.35);cursor:pointer;border-radius:999px;font-family:'Nunito',sans-serif;text-align:center;}
+.section{padding:1.8rem 1.1rem;}
+.pill-label{display:inline-block;background:var(--pp);color:var(--purple);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:0.25rem 0.8rem;border-radius:999px;margin-bottom:0.7rem;}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--text);margin-bottom:1.3rem;font-weight:700;}
+.bloques-grid{display:grid;grid-template-columns:1fr;gap:1.1rem;}
+.bloque-card{background:var(--card);border-radius:14px;padding:1.3rem;border:1px solid var(--border);-webkit-tap-highlight-color:transparent;}
+.bloque-card:active{border-color:var(--pl);}
+.bloque-emoji{font-size:1.8rem;margin-bottom:0.7rem;}
+.bloque-card h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;margin-bottom:0.3rem;}
+.bloque-card p{font-size:0.78rem;color:var(--muted);line-height:1.55;}
+.bloque-tag{display:inline-block;margin-top:0.7rem;background:var(--pp);color:var(--purple);font-size:0.62rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:999px;}
+.lectura-bg{background:var(--bg2);}
+.lectura-list{display:flex;flex-direction:column;gap:0.8rem;}
+.lectura-item{background:var(--card);border-radius:11px;padding:1rem 1.2rem;display:flex;align-items:center;gap:0.9rem;border:1px solid var(--border);-webkit-tap-highlight-color:transparent;}
+.lectura-item:active{border-color:var(--pink);}
+.lectura-num{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--pl);font-weight:700;min-width:1.8rem;text-align:center;}
+.lectura-info h4{font-size:0.88rem;font-weight:700;}
+.lectura-info p{font-size:0.72rem;color:var(--muted);}
+.tip-box{background:var(--purple);border-radius:14px;padding:1.3rem;color:#fff;margin-top:1.5rem;}
+.tip-box h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:0.9rem;font-style:italic;}
+.tip-list{list-style:none;display:flex;flex-direction:column;gap:0.7rem;}
+.tip-list li{font-size:0.82rem;color:rgba(255,255,255,0.8);display:flex;gap:0.5rem;line-height:1.5;}
+.tip-list li::before{content:'✦';color:#f9c3d9;flex-shrink:0;}
+.recursos-cards{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1rem;}
+.rc{border-radius:11px;padding:1.3rem;background:linear-gradient(135deg,var(--pp),#fff);border:1px solid var(--border);-webkit-tap-highlight-color:transparent;}
+.rc:active{border-color:var(--pl);}
+.rc .rc-icon{font-size:1.4rem;margin-bottom:0.6rem;}
+.rc h3{font-size:0.9rem;font-weight:800;margin-bottom:0.25rem;}
+.rc p{font-size:0.75rem;color:var(--muted);line-height:1.4;}
+.rc a{display:inline-block;margin-top:0.55rem;color:var(--purple);font-size:0.75rem;font-weight:700;text-decoration:none;}
+footer{background:var(--purple);color:rgba(255,255,255,0.65);padding:1.3rem 1.1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.72rem;}
+footer strong{color:#fff;}
+@media(min-width:580px){
+  .hero{padding:3.5rem 2rem 3rem;}
+  .hero-btns{flex-direction:row;}
+  .section{padding:2.5rem 2rem;}
+  .bloques-grid{grid-template-columns:repeat(2,1fr);}
+  .recursos-cards{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:900px){
+  .hero{padding:5rem 3rem 4rem;}
+  .section{padding:3.5rem 3rem;}
+  .bloques-grid{grid-template-columns:repeat(3,1fr);}
+  footer{flex-direction:row;justify-content:space-between;padding:1.8rem 3rem;}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo-text">EspañolTS</div>
+    <a href="index.html" class="back-link">← Portal</a>
+    <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-overlay" id="overlay">
+  <button class="nav-close" id="navClose">✕</button>
+  <a href="index.html">🏠 Portal</a><a href="matematicas.html">➗ Matemáticas</a><a href="matematicas-avanzadas.html">∫ Avanzadas</a><a href="ciencias.html">🔬 Ciencias</a><a href="historia-geografia.html">🏛️ Historia</a><a href="english.html">🇺🇸 English</a><a href="computacion.html">💻 Computación</a><a href="civica-artes.html">⚖️ Cívica</a>
+</div>
+<div class="hero">
+  <div class="hero-badge">Telesecundaria · Español</div>
+  <h1>Las palabras<br>son tu <em>poder.</em></h1>
+  <p>Lee, escribe y comunícate con confianza. Gramática, redacción y literatura para todos los grados.</p>
+  <div class="hero-btns">
+    <button class="btn-white">Empezar a leer</button>
+    <button class="btn-ghost-w">Ver actividades</button>
+  </div>
+</div>
+<section class="section">
+  <div class="pill-label">Contenido del curso</div>
+  <h2>Bloques temáticos</h2>
+  <div class="bloques-grid">
+    <div class="bloque-card"><div class="bloque-emoji">📖</div><h3>Comprensión lectora</h3><p>Estrategias para leer textos narrativos, informativos y argumentativos.</p><span class="bloque-tag">1° — 3° grado</span></div>
+    <div class="bloque-card"><div class="bloque-emoji">✍️</div><h3>Producción escrita</h3><p>Cartas, ensayos, cuentos, reportes y textos expositivos.</p><span class="bloque-tag">1° — 3° grado</span></div>
+    <div class="bloque-card"><div class="bloque-emoji">🔤</div><h3>Gramática y ortografía</h3><p>Reglas gramaticales, puntuación y acentuación.</p><span class="bloque-tag">1° — 3° grado</span></div>
+    <div class="bloque-card"><div class="bloque-emoji">🎭</div><h3>Literatura mexicana</h3><p>Obras y autores de la literatura nacional e iberoamericana.</p><span class="bloque-tag">2° y 3° grado</span></div>
+    <div class="bloque-card"><div class="bloque-emoji">🗣️</div><h3>Expresión oral</h3><p>Debates, exposiciones y comunicación verbal efectiva.</p><span class="bloque-tag">1° — 3° grado</span></div>
+    <div class="bloque-card"><div class="bloque-emoji">📰</div><h3>Medios de comunicación</h3><p>Análisis crítico de noticias, publicidad y mensajes mediáticos.</p><span class="bloque-tag">3° grado</span></div>
+  </div>
+</section>
+<section class="section lectura-bg">
+  <div class="pill-label">Lectura</div>
+  <h2>Lecturas recomendadas</h2>
+  <div class="lectura-list">
+    <div class="lectura-item"><div class="lectura-num">01</div><div class="lectura-info"><h4>El Principito — Antoine de Saint-Exupéry</h4><p>Cuento filosófico sobre la amistad y la imaginación</p></div></div>
+    <div class="lectura-item"><div class="lectura-num">02</div><div class="lectura-info"><h4>Pedro Páramo — Juan Rulfo</h4><p>Novela clave de la literatura mexicana</p></div></div>
+    <div class="lectura-item"><div class="lectura-num">03</div><div class="lectura-info"><h4>Cuentos de la Selva — Horacio Quiroga</h4><p>Fábulas latinoamericanas para jóvenes</p></div></div>
+    <div class="lectura-item"><div class="lectura-num">04</div><div class="lectura-info"><h4>Marianela — Benito Pérez Galdós</h4><p>Novela sobre identidad, belleza y sociedad</p></div></div>
+    <div class="lectura-item"><div class="lectura-num">05</div><div class="lectura-info"><h4>Antología de Poesía Mexicana</h4><p>Sor Juana, Paz, Nervo y otros poetas</p></div></div>
+  </div>
+  <div class="tip-box">
+    <h3>Consejos para leer mejor</h3>
+    <ul class="tip-list">
+      <li>Lee en voz alta para mejorar la fluidez.</li>
+      <li>Subraya palabras nuevas y búscalas.</li>
+      <li>Escribe un párrafo de lo que aprendiste.</li>
+      <li>Dedica 20 minutos al día a leer.</li>
+    </ul>
+  </div>
+</section>
+<section class="section">
+  <div class="pill-label">Recursos</div>
+  <h2>Sitios de apoyo</h2>
+  <div class="recursos-cards">
+    <div class="rc"><div class="rc-icon">📚</div><h3>Biblioteca UNAM</h3><p>Libros y textos en acceso libre.</p><a href="https://www.bibliodgsca.unam.mx" target="_blank">Visitar →</a></div>
+    <div class="rc"><div class="rc-icon">🎙️</div><h3>FundéuRAE</h3><p>Guías de gramática y ortografía en español.</p><a href="https://www.fundeu.es" target="_blank">Visitar →</a></div>
+    <div class="rc"><div class="rc-icon">✏️</div><h3>Cuadernia</h3><p>Actividades de comprensión lectora.</p><a href="http://cuadernia.educa.jccm.es" target="_blank">Visitar →</a></div>
+  </div>
+</section>
+<footer><strong>EspañolTS</strong><span>Telesecundaria · Ciclo 2025–2026</span></footer>
+<script>
+const ham=document.getElementById('ham'),ov=document.getElementById('overlay'),nc=document.getElementById('navClose');
+function open_(){ham.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+function close_(){ham.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+ham.addEventListener('click',()=>ov.classList.contains('open')?close_():open_());
+nc.addEventListener('click',close_);ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close_));
+</script>
+</body>
+</html>
